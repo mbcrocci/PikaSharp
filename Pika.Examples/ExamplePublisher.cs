@@ -2,7 +2,12 @@
 
 namespace Pika.Examples;
 
-public class ExamplePublisher : Publisher<ExampleMessage>
+public interface IExamplePublisher
+{
+    void CallableMethod(string id, double value);
+}
+
+public class ExamplePublisher : Publisher<ExampleMessage>, IExamplePublisher
 {
     private readonly PublisherOptions _options = new("tests", "publisher.topic");
 

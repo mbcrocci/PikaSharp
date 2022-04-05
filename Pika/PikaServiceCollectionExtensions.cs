@@ -18,6 +18,12 @@ public static class PikaServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddPublisher<P, PImplementation>(this IServiceCollection services) where P : class where PImplementation : class, P
+    {
+        services.AddSingleton<P, PImplementation>();
+        return services;
+    }
+
     public static IServiceCollection AddConsumer<C>(this IServiceCollection services) where C : class, IHostedService
     {
         services.AddHostedService<C>();

@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<PackageId>PikaSharp</PackageId>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<Authors>Maurizio Crocci</Authors>
 		<PackageTags>RabbitMQ,Wrapper</PackageTags>
 		<Description>Simple wrapper that facilitates working with RabbitMQ.</Description>
