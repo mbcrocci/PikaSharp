@@ -21,9 +21,14 @@ public abstract class Publisher<T>
     }
 
     public abstract PublisherOptions Options { get; }
-    
+
     protected void Publish(T message)
     {
         _channel.BasicPublish(Options.Exchange, Options.Topic, body: Pika.Message(message));
+    }
+
+    protected void Publish(T message, PublisherOptions options)
+    {
+        _channel.BasicPublish(options.Exchange, options.Topic, body: Pika.Message(message));
     }
 }
