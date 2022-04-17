@@ -8,6 +8,9 @@ builder.Services.AddPublisher<IExamplePublisher, ExamplePublisher>();
 builder.Services.AddConsumer<ExampleConsumer>();
 builder.Services.AddNotifier<ExampleNotifier>();
 
+builder.Services.AddSingleton<ExampleGetterUser>();
+builder.Services.AddGetter<ExampleGetter>();
+
 var app = builder.Build();
 
 app.Run();

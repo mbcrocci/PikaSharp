@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace PikaSharp;
 
-public record PublisherOptions(string Exchange, string Topic);
+public record PublisherOptions(
+    string Exchange,
+    string Topic,
+    IBasicProperties? props = null);
 
 public abstract class Publisher<T>
 {
@@ -22,13 +25,16 @@ public abstract class Publisher<T>
 
     public abstract PublisherOptions Options { get; }
 
-    protected void Publish(T message)
-    {
-        _channel.BasicPublish(Options.Exchange, Options.Topic, body: Pika.Message(message));
-    }
+    protected void Publish(T message) => Publish(message, Options);
 
     protected void Publish(T message, PublisherOptions options)
     {
-        _channel.BasicPublish(options.Exchange, options.Topic, body: Pika.Message(message));
+        _channel.BasicPublish(
+            options.Exchange,
+            options.Topic,
+            basicProperties: options.props,
+            body: Pika.Message(message));
     }
+
+    protected IBasicProperties CreateProperties() => _channel.CreateBasicProperties();
 }

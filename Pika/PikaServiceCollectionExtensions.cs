@@ -35,4 +35,10 @@ public static class PikaServiceCollectionExtensions
         services.AddHostedService<N>();
         return services;
     }
+
+    public static IServiceCollection AddGetter<G>(this IServiceCollection services) where G : class, IHostedService
+    {
+        services.AddHostedService<G>();
+        return services;
+    }
 }
