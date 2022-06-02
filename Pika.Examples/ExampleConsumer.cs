@@ -4,7 +4,7 @@ namespace Pika.Examples;
 
 public class ExampleConsumer : Consumer<ExampleMessage>
 {
-    private readonly ConsumerOptions _options = new("tests", "example.topic", "example-consumer");
+    private readonly ConsumerOptions _options = new ConsumerOptions("tests", "example.topic", "example-consumer").Durable();
 
     public ExampleConsumer(ILogger<ExampleConsumer> logger, IConnector connector) : base(logger, connector) { }
 

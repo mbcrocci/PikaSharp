@@ -5,7 +5,32 @@ using RabbitMQ.Client.Events;
 
 namespace PikaSharp;
 
-public record ConsumerOptions(string Exchange, string Topic, string Queue);
+public record ConsumerOptions
+{
+    public ConsumerOptions(string exchange, string topic, string queue)
+    {
+        Exchange = exchange;
+        Topic = topic;
+        Queue = queue;
+    }
+
+    public string Exchange { get; set; } = "";
+    public string Topic { get; set; } = "";
+    public string Queue { get; set; } = "";
+
+    public bool IsDurable { get; internal set; } = false;
+    public bool AutoDelete { get; internal set; } = true;
+}
+
+public static class ConsumerOptionsExtensions
+{
+    public static ConsumerOptions Durable(this ConsumerOptions options)
+    {
+        options.IsDurable = true;
+        options.AutoDelete = false;
+        return options;
+    }
+}
 
 public abstract class Consumer<T> : IHostedService
 {
@@ -25,7 +50,7 @@ public abstract class Consumer<T> : IHostedService
     public abstract ConsumerOptions Options { get; }
 
     public abstract Task ConsumeAsync(T msg);
-        
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _channel ??= _rabbit.Channel();
@@ -46,7 +71,7 @@ public abstract class Consumer<T> : IHostedService
 
     private void SetupQueue()
     {
-        _channel.QueueDeclare(Options.Queue);
+        _channel.QueueDeclare(Options.Queue, Options.IsDurable, false, Options.AutoDelete);
         _channel.QueueBind(Options.Queue, Options.Exchange, Options.Topic);
     }
 
